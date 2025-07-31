@@ -1,0 +1,49 @@
+[00:00]    Moderator (Sofia): Good morning, everyone. This is the weekly Product-Launch Sync for Project Aurora, recorded on 31 July 2025. Let’s do a quick round-robin: name and role.
+[00:07]    Alex (PM): Alex here, product manager.
+[00:09]    Priya (Eng Lead): Priya, engineering lead.
+[00:11]    Miguel (QA): Miguel from quality assurance.
+[00:13]    Dana (Marketing): Dana, marketing lead.
+[00:15]    Felix (Sales Ops): Felix from sales operations.
+[00:17]    Sofia: Thanks. Agenda today: (1) sprint status, (2) launch readiness, (3) marketing assets, (4) open risks & next actions. Alex, you’re up.
+
+-- SPRINT STATUS --------------------------------------------------------------
+[00:25]    Alex: Sprint 23 closed at 91 % complete. We finished the new onboarding flow, but the reporting API slipped to next sprint because of OAuth edge-cases.
+[00:34]    Priya: Engineering discovered one more performance hot-spot in the aggregation query. We put a patch on a feature branch; needs review before merge.
+[00:42]    Miguel: QA ran smoke tests on build 1.23.6—95 % pass rate. Two blockers: (a) currency mismatch in EU checkout; (b) iOS push notifications timing out.
+[00:52]    Alex: Noted. Target is still code-freeze on **15 August**.
+
+-- LAUNCH READINESS -----------------------------------------------------------
+[01:00]    Sofia: Let’s confirm launch milestones. We pencilled GA for **3 September 2025**.
+[01:05]    Priya: From engineering, we can hit freeze by 15 Aug, RC by 22 Aug, assuming the OAuth fix and perf patch land by next Wednesday.
+[01:13]    Miguel: QA regression pass needs 5 business days; we’ll need the RC by 23 Aug latest.
+[01:19]    Dana: Marketing outline is ready. We plan teaser posts starting 25 Aug, press kit lock by 28 Aug.
+[01:25]    Felix: Sales enablement deck draft is 60 % done. We’ll align with Marketing assets for consistent messaging.
+
+-- MARKETING ASSETS -----------------------------------------------------------
+[01:33]    Dana: Assets checklist—landing page, social animations, blog post, press release, customer case study. Landing page copy is in review; animation storyboard done; case-study interview with BetaCorp next Tuesday.
+[01:46]    Alex: Landing copy approval needed by product—I'll review today.
+[01:50]    Dana: We also need final product screenshots by **20 Aug** for all assets.
+
+-- OPEN RISKS -----------------------------------------------------------------
+[02:00]    Priya: Biggest risk: database migration from v1 to v2. We have a fallback plan—blue-green deploy with shadow writes—but need staging data parity tests.
+[02:10]    Miguel: Risk on iOS push notifications—root cause points to APNs token expiry. We’re regenerating certificates.
+[02:18]    Felix: Early-access customers ask for pricing tiers; we need finalized pricing sheet by 18 Aug for the webinar invite.
+
+-- DECISIONS ------------------------------------------------------------------
+[02:25]    Sofia: Let’s capture explicit decisions:
+           1. Keep GA date 3 Sep 2025.
+           2. Code-freeze firm on 15 Aug; no feature creep.
+           3. Marketing to launch teaser campaign starting 25 Aug.
+           4. Database migration will use blue-green with shadow writes.
+
+-- ACTION ITEMS ---------------------------------------------------------------
+[02:40]    Sofia: Action time. Shout out if I miss anything.
+[02:42]    Alex: ▸ Review landing page copy by EOD 31 Jul.  
+[02:45]    Priya: ▸ Merge perf-patch branch and OAuth fix by Wed 6 Aug.  
+[02:47]    Miguel: ▸ Resolve currency mismatch bug by Fri 2 Aug; send nightly report.  
+[02:50]    Dana: ▸ Schedule case-study interview 6 Aug; deliver first draft press release 20 Aug.  
+[02:53]    Felix: ▸ Finalize pricing tiers with Finance by 18 Aug.  
+[02:55]    Priya: ▸ Run staging data-parity test for DB migration by 12 Aug.
+
+-- WRAP-UP --------------------------------------------------------------------
+[03:00]    Sofia: Next sync same time next Thursday, 7 Aug. Recording will be posted in the Launch Sync channel. Thanks all—meeting adjourned.

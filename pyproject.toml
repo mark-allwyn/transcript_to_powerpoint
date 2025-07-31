@@ -1,0 +1,15 @@
+[project]
+name = "transcribe-to-slide"
+version = "0.1.0"
+description = "Transcript to Slide Deck with GPT-Image-1 visuals"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai>=0.130",
+    "streamlit>=1.35",
+    "python-pptx>=0.6.21",
+    "openai>=1.15",
+    "requests>=2.32",
+    "tiktoken>=0.6",
+    "langchain-openai>=0.1.0",
+    "pillow>=11.3.0",
+]

@@ -1,0 +1,6 @@
+crewai>=0.130
+streamlit>=1.35
+python-pptx>=0.6.21
+openai>=1.15
+requests>=2.32
+tiktoken>=0.6

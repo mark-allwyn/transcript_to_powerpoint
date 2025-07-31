@@ -1,10 +1,13 @@
 """
-Transcript → Slide Deck (with GPT-Image-1 visuals)
---------------------------------------------------
-Run:  streamlit run app.py
+Transcript → Slide Deck
+-----------------------
+AI-powered application that converts meeting transcripts into PowerPoint presentations
+with AI-generated images using OpenAI's structured output and DALL-E 3.
+
+Run: streamlit run app.py
 """
 
-import os, json, math, textwrap, requests, re, base64
+import os, json, math, requests, base64, time
 from io import BytesIO
 from typing import List
 import streamlit as st
@@ -14,14 +17,12 @@ from pydantic import BaseModel, Field
 import openai
 
 # ---------------------------------------------------------------------------
-# 0  API key
+# Configuration
 # ---------------------------------------------------------------------------
-openai.api_key = (
-    os.getenv("OPENAI_API_KEY")
-)
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # ---------------------------------------------------------------------------
-# 0.5  Pydantic Models for Structured Output
+# Pydantic Models for Structured Output
 # ---------------------------------------------------------------------------
 class MeetingSummary(BaseModel):
     """Structured output for meeting transcript summary"""
@@ -43,16 +44,16 @@ class ImagePrompts(BaseModel):
     prompts: List[str] = Field(description="Array of DALL-E prompts, one for each slide")
 
 # ---------------------------------------------------------------------------
-# 1  Helper functions
+# Helper Functions
 # ---------------------------------------------------------------------------
 def chunk_text(text: str, words_per_chunk: int = 8_000) -> list[str]:
-    """Split very long transcripts into ~8 000-word chunks for gpt-3.5."""
+    """Split very long transcripts into chunks for processing."""
     words = text.split()
     if len(words) <= words_per_chunk:
         return [text]
     n_chunks = math.ceil(len(words) / words_per_chunk)
     return [
-        " ".join(words[i::n_chunks])  # interleaved ensures similar lengths
+        " ".join(words[i::n_chunks])
         for i in range(n_chunks)
     ]
 
@@ -66,17 +67,15 @@ def merge_summaries(parts: list[dict]) -> dict:
 
 
 def create_placeholder_image() -> bytes:
-    """Create a simple white placeholder image instead of transparent."""
+    """Create a simple white placeholder image."""
     try:
         from PIL import Image
-        # Create a 1024x1024 white image
         img = Image.new('RGB', (1024, 1024), 'white')
         buf = BytesIO()
         img.save(buf, format='PNG')
         return buf.getvalue()
     except ImportError:
-        # Fallback to a simple base64 encoded white image if PIL not available
-        # This is a small white 100x100 PNG image
+        # Fallback: small white PNG image
         white_image_b64 = """
         iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGklEQVQYV2P4//8/AzYwOjraMDo6
         2jA6OtoAALvMBONcfOGOAAAAAElFTkSuQmCC
@@ -85,53 +84,52 @@ def create_placeholder_image() -> bytes:
 
 
 def create_images_gpt(prompts: list[str]) -> list[bytes]:
-    """Generate one image per prompt with DALL-E 3 and return raw bytes."""
+    """Generate images using DALL-E 3 and return raw bytes."""
     bins = []
     for prompt in prompts:
         try:
-            # Use DALL-E 3 for faster and more reliable image generation
             resp = openai.images.generate(
                 model="dall-e-3",
                 prompt=prompt,
                 n=1,
                 size="1024x1024",
-                quality="standard",  # Valid options are "standard" and "hd"
+                quality="standard",
             )
             url = resp.data[0].url
             if url:
                 image_data = requests.get(url, timeout=30).content
                 bins.append(image_data)
-                print(f"Successfully generated image for prompt: {prompt[:50]}...")
             else:
-                print(f"Warning: No URL returned for prompt: {prompt}")
                 bins.append(create_placeholder_image())
-        except Exception as e:
-            print(f"Error generating image for prompt '{prompt[:50]}...': {e}")
+        except Exception:
             bins.append(create_placeholder_image())
     return bins
 
 
 def build_pptx(slide_specs: list[dict], images: list[bytes]) -> BytesIO:
+    """Build PowerPoint presentation from slide specifications and images."""
     prs = Presentation()
+    
     # Title slide
     tslide = prs.slides.add_slide(prs.slide_layouts[0])
     tslide.shapes.title.text = "Meeting Summary"
     tslide.placeholders[1].text = "AI-generated deck"
 
+    # Content slides
     bullet_layout = prs.slide_layouts[1]
     for spec, img_bytes in zip(slide_specs, images):
         sld = prs.slides.add_slide(bullet_layout)
         sld.shapes.title.text = spec["title"]
 
         body = sld.shapes.placeholders[1].text_frame
-        body.clear()  # remove default text
+        body.clear()
         for bullet in spec["bullets"]:
             p = body.add_paragraph()
             p.text = bullet
             p.level = 0
             p.font.size = Pt(18)
 
-        # insert picture on right side
+        # Add image on right side
         pic_stream = BytesIO(img_bytes)
         sld.shapes.add_picture(pic_stream, Inches(5.5), Inches(1.3), width=Inches(3))
 
@@ -142,15 +140,18 @@ def build_pptx(slide_specs: list[dict], images: list[bytes]) -> BytesIO:
 
 
 # ---------------------------------------------------------------------------
-# 3  End-to-end pipeline
+# Main Processing Pipeline
 # ---------------------------------------------------------------------------
 
 def generate_slide_package(transcript: str):
-    # Use direct OpenAI calls with structured output for more reliable results
+    """Process transcript and generate slide specifications with images."""
     from openai import OpenAI
     client = OpenAI()
     
-    # 3a  Summarise using OpenAI structured output
+    start_time = time.time()
+    
+    # Step 1: Analyze transcript using OpenAI structured output
+    step1_start = time.time()
     try:
         summary_response = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
@@ -177,13 +178,14 @@ def generate_slide_package(transcript: str):
             response_format=MeetingSummary
         )
         summary_json = summary_response.choices[0].message.parsed.model_dump()
-        print(f"DEBUG - OpenAI summary: {summary_json}")
-    except Exception as e:
-        print(f"DEBUG - OpenAI structured output failed: {e}")
+    except Exception:
         # Fallback to manual parsing
         summary_json = {"key_points": ["Meeting analysis failed"], "decisions": [], "action_items": []}
+    
+    step1_time = time.time() - step1_start
 
-    # 3b  Create slides using OpenAI structured output
+    # Step 2: Create slide specifications
+    step2_start = time.time()
     try:
         slides_response = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
@@ -215,9 +217,7 @@ def generate_slide_package(transcript: str):
         )
         slide_specs = slides_response.choices[0].message.parsed.slides
         slide_specs_data = [spec.model_dump() for spec in slide_specs]
-        print(f"DEBUG - Generated {len(slide_specs_data)} slides from OpenAI")
-    except Exception as e:
-        print(f"DEBUG - OpenAI slides generation failed: {e}")
+    except Exception:
         # Fallback: Create slides directly from summary
         slide_specs_data = []
         if summary_json.get('key_points'):
@@ -238,8 +238,11 @@ def generate_slide_package(transcript: str):
         
         if not slide_specs_data:
             slide_specs_data = [{"title": "Meeting Summary", "bullets": ["Content not available"]}]
+    
+    step2_time = time.time() - step2_start
 
-    # 3c  Generate image prompts using OpenAI structured output
+    # Step 3: Generate image prompts
+    step3_start = time.time()
     try:
         prompts_response = client.beta.chat.completions.parse(
             model="gpt-4o",
@@ -274,27 +277,36 @@ def generate_slide_package(transcript: str):
             response_format=ImagePrompts
         )
         prompts = prompts_response.choices[0].message.parsed.prompts
-        print(f"DEBUG - Generated {len(prompts)} image prompts")
-    except Exception as e:
-        print(f"DEBUG - OpenAI image prompts failed: {e}")
+    except Exception:
         prompts = [f"Minimalist business illustration for slide {i+1}, no text, no words, no labels" for i in range(len(slide_specs_data))]
+    
+    step3_time = time.time() - step3_start
 
+    # Ensure prompts match slides count
     if len(prompts) != len(slide_specs_data):
-        print(f"DEBUG - Prompt/slide mismatch: {len(prompts)} prompts vs {len(slide_specs_data)} slides")
-        # Adjust prompts to match slides
         if len(prompts) < len(slide_specs_data):
             prompts.extend([f"Business illustration, no text" for _ in range(len(slide_specs_data) - len(prompts))])
         else:
             prompts = prompts[:len(slide_specs_data)]
 
-    # 3d  Image generation
+    # Step 4: Generate images
+    step4_start = time.time()
     image_bins = create_images_gpt(prompts)
+    step4_time = time.time() - step4_start
+    
+    total_time = time.time() - start_time
 
-    return slide_specs_data, image_bins
+    return slide_specs_data, image_bins, {
+        "transcript_analysis": step1_time,
+        "slide_generation": step2_time, 
+        "image_prompts": step3_time,
+        "image_generation": step4_time,
+        "total_time": total_time
+    }
 
 
 # ---------------------------------------------------------------------------
-# 4  Streamlit UI
+# Streamlit User Interface
 # ---------------------------------------------------------------------------
 st.title("Transcript → Slides")
 file = st.file_uploader("Upload meeting transcript (.txt)", type=["txt"])
@@ -302,9 +314,25 @@ file = st.file_uploader("Upload meeting transcript (.txt)", type=["txt"])
 if file:
     transcript_text = file.read().decode("utf-8", errors="ignore")
     with st.spinner("Processing transcript…"):
-        specs, imgs = generate_slide_package(transcript_text)
+        specs, imgs, timing_info = generate_slide_package(transcript_text)
         deck = build_pptx(specs, imgs)
+    
     st.success("Slide deck ready!")
+    
+    # Display timing information
+    st.subheader("Processing Times")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric("Transcript Analysis", f"{timing_info['transcript_analysis']:.1f}s")
+        st.metric("Slide Generation", f"{timing_info['slide_generation']:.1f}s")
+    
+    with col2:
+        st.metric("Image Prompts", f"{timing_info['image_prompts']:.1f}s")
+        st.metric("Image Generation", f"{timing_info['image_generation']:.1f}s")
+    
+    st.metric("Total Processing Time", f"{timing_info['total_time']:.1f}s")
+    
     st.download_button(
         label="Download PPTX",
         data=deck,

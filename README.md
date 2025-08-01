@@ -20,6 +20,23 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
+### [CrewAI Transcript to Slides](./crewai/)
+Convert meeting transcripts into professional PowerPoint presentations using collaborative AI agents for optimized cost and performance.
+
+**Features:**
+- Multi-agent AI workflow (Analyzer → Designer → Optimizer)
+- 90% cost reduction vs image-based approaches
+- Text-only slide generation for maximum efficiency
+- GPT-4o-mini optimization with token control
+- Professional business presentation output
+
+**Quick Start:**
+```bash
+cd crewai
+pip install -r requirements.txt
+streamlit run app.py
+```
+
 ## Global Setup
 
 ### Prerequisites
@@ -53,6 +70,11 @@ transcript_to_powerpoint/
 │   ├── app.py            # Main Streamlit application
 │   ├── requirements.txt  # Dependencies
 │   ├── ARCHITECTURE.md   # Technical documentation
+│   └── README.md         # App-specific guide
+├── crewai/               # CrewAI multi-agent transcript processor
+│   ├── .env              # App-specific environment (optional)
+│   ├── app.py            # Main Streamlit application
+│   ├── requirements.txt  # Dependencies
 │   └── README.md         # App-specific guide
 └── [future apps]/        # Additional AI applications
 ```

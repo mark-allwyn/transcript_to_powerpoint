@@ -1,4 +1,4 @@
-# Core dependencies for all apps
+crewai>=0.130
 streamlit>=1.35
 python-pptx>=0.6.21
 openai>=1.15
@@ -6,7 +6,4 @@ requests>=2.32
 pydantic>=2.0
 pillow>=9.0
 python-dotenv>=1.0
-
-# Additional dependencies for CrewAI app
-crewai>=0.130
 langchain-openai>=0.1.0

@@ -1,0 +1,230 @@
+Transcript
+11 July 2025, 11:02am
+
+ STENT Mark   0:03 Isolating everybody. I just want to aggregate all the stuff people are doing so I can share with you all what everybody's doing as a whole. Like we have 20 models in production. Everybody is complaining about XYZ. This is the stuff we're doing well. We're all using Databricks. I'm not going to be individualizing anything. I know you're quite worried about the data protection. Stuff and whatever. So just to put your your headed dress.
+
+ Marinakos George   0:24 First, first of all, first of all, Mark, sorry, sorry about the interruption. I've called to this meeting my my two best guys. The one is present now. He's Manos Nikolopoulos. He's doing the the AI stuff for the lottery games and we may.
+
+ STENT Mark   0:29 Yes. Oh, great.
+
+ Marinakos George   0:44 And we may have with us in a bit the other relevant guy who does Chris Platias, who does the the AI models for the for the betting for the sportsbook and for casino. So they can update us for any technical detail you need so you can continue.
+
+ STENT Mark   1:01 That's good. That's great. Thanks, man. It's great to meet you, man, and welcome. Good to meet you. Yeah, cool. So I've just got a few really basic overview questions I wanted to ask you. And again, this is just more about the way you feel about things. I'm trying to get an idea of the type of problems you guys are solving the pain. Oints you have. So what would you say your top three business goals you're aiming to to advance with with AI and data science over the next year or so? What are your your main use cases?
+
+ Marinakos George   1:30 OK. So the main use cases focus on three or four areas of business performance, let's say related directly to the customer, meaning that one basic area is to reduce the loss of customers. And which customers, the customers on the top tier segment, meaning that VI PS and high value customers represent almost 50% of our business, OK.
+
+ STENT Mark   2:01 Wow.
+
+ Marinakos George   2:03 So the overall churn to us is let's say 30%. Their churn within this segment is 10%, but this 10% produces let's say 80% of the whole money loss coming from churn. So the main scope of our models and mainly. The propensity models, the probably listing machine learning models is to reduce the inactivation of these kind of customers this split. So we are talking about anti churn modeling for revenue loss reduction from churn.
+
+ STENT Mark   2:32 Interesting.
+
+ Marinakos George   2:40 Now this has two two different leaves, let's say two different feet. OK, the first feet has to do with the excessive play and the tension of the customer to self exclude in the future. So we are not talking about. Let's say a choice. We are talking about a need to stop to play one. So we are trying to predict future excessive play and address it in some kind of way so as to reduce self-exclusion and the other feet of the anti churn. Logic of our models is to predict those customers who are not addicted, but they have high probability to leave us and go to the competition. This is 1 main area. This is the first area, reducing the churn on the top tier of our segments. The top tier value segments. OK, the second area of machine learning. Focuses on crafting experiences, meaning CRM experiences. OK, what do what do I mean by that? Every customer receives offers from many sources, from loyalty programs, one-to-one offers, universal promotions. Many, many sources give to the customer a bonus, let's say, of any kind. So there is a need that this thing gets to a control, meaning that I'm giving an example we need, we need to keep to our VIP base, let's say, or our high value base.
+
+ STENT Mark   4:12 Yeah.
+
+ Marinakos George   4:18 A discount level, a discount level to their experience, meaning how much money they lose. Let's say they lose 1000 EUR a month. OK, we need to keep an experience returning 25% back to them. But when? In what channel? In what day? In what hour? To whom? In what game? And so on. So the second priority of our machine learning logics is focusing on crafting experiences. So as the customer to take, let's say.
+
+ STENT Mark   4:35 Oh.
+
+ Marinakos George   4:54 Say the more relevant offer in value terms and in game choice, meaning we want to give to the customer at the correct time, fast indeed. The correct value relevant to him. So different value of offers to different segments. One, we need to give the offer to the game he prefers to and we need to make this journey a bit prolonged and not for once, meaning that this needs to be continuously on a daily basis. Basis. That's why you see in the file many, many different rule based recommendation engines who are machines that hit the customer with the correct value, the correct offer to the correct game on a daily basis if needed. Meaning that if the customer wins, he will receive a he will receive a call to deposit. If he if the customer loses much, he will receive cash to his balance. If the customer stops playing, he will receive an aggressive offer to his favorite game. And this and this is repeated on a daily basis on a customer level through these kind of programs of queries. Let's say this is the second priority, crafting experiences. Third priority, the third priority has to do with.
+
+ STENT Mark   6:00 Wow.
+
+ Marinakos George   6:18 Marketing optimization, let's say. OK, so the company has a budget, let's say 10 million or whatever is this. The company has a lot of options to invest this budget, ATL advertisement, let's say above the line, TV, radio and so on. Digital marketing sources like display, paid searches, sale or whatever, whatever includes digital marketing. Sponsorships or other sources of marketing. So the main question here is what is the optimal mix of investment so as to maximize new customer inflows, meaning registrations. This is done. Through regression modeling and time series. So we calculate beta coefficients for each marketing driver depicting the impact of each driver to the registrations, so the marketeer can reshuffle the mix of marketing so as to maximize the registrations with a minimum. Cost possible. So this is the third basic area, Mark. The four, yeah.
+
+ STENT Mark   7:29 Quick question there. Are you, are you guys doing your MMMS in house yourselves and you're not, you're not farming them out. They're internal, right?
+
+ Marinakos George   7:39 So it's both sides the the official, the official marketing mix model comes from the agency that manages the let's say the the marketing mix allocation and executes the campaigns but.
+
+ STENT Mark   7:40 OK. Yes.
+
+ Marinakos George   7:57 Internally, we rationalize this logic by building fully in-house time series models for Palma Stigmato GR and for highlotters as well, so as to inform from the inside the marketeer what is the most rational way.
+
+ STENT Mark   8:15 Yeah.
+
+ Marinakos George   8:17 Say if if he if what he gets from the agency is logic and stuff like that. This was done through a different tool in the past. This was called SPSS Modeler. I don't know if you and and now we are under the process of replicating this to Azure Databricks.
+
+ STENT Mark   8:28 Yes, I do know his pieces, yeah. OK.
+
+ Marinakos George   8:38 OK. So yes, we do it in house. Yes, we receive MMMS from the agency, but we compare our internal models with the agencies so as to to conclude to the final decision, let's say.
+
+ STENT Mark   8:54 Good for you. You know, I used to work for publicists in the agency and they completely overcharge you guys. When I arrived here at Olwyn, the marketing team bought me. They were charged 160,000 lbs per market for an MMM. I was like, you're getting completely ripped off there. Geez, like, you know, anyway.
+
+ Marinakos George   9:10 My. This is the main problem, Mark. We are the the main scope of online analytics team is to to minimize, let's say, outsourcing needs for this kind of stuff.
+
+ STENT Mark   9:15 No. Yes, yes.
+
+ Marinakos George   9:28 And this is the and this is really improving year, year over year. But the main challenge for us because you talked about what is the main pain points you you the main challenge for us is goes like this.
+
+ STENT Mark   9:39 Yes.
+
+ Marinakos George   9:43 Until now we had an idea. OK, let's reduce threat churn by predicting who is going to churn through an ML model. I'm giving an example. We were developing the model and then we were struggling to convince the business.
+
+ STENT Mark   9:53 Yeah, yes.
+
+ Marinakos George   10:01 To change practice, let's say, and to use this model and we are going, we were going over and over about the the model's precision and the model's power, prediction power and stuff like that. But but the most difficult thing is to convince the practitioners. To change practice, now we are shifting logic. We are shifting logic. We are making these models part of the overall online strategy of a pop, so they get a road map approved by the business in advance. So we are going to submit with what models we are going to support the strategy of 2026 and this is going to be done until the end of the summer and now we don't have to convince anybody because they are in the in the main road map of. Our business, we are basically we are mature enough to do this because all the previous years we ourselves, we were experimenting with this kind of stuff. Now we are more matured. Basically we have a better communication streams with the business because they.
+
+ STENT Mark   10:58 Well done. It is.
+
+ Marinakos George   11:18 Trust data. Right now they are more mature, meaning that they prefer to use a model than to throw money in the air and they have understood that. So basically now the test is to put the modeling plan. Within the strategy, receive a road map, receive an approval from the business and start working with the confidence that these models will go in production for once in 2026. So the the basic pain point is how you convince the business to invest. To this to this kind of stuff, because there there is a resistance, meaning that these models are, these models are going to replace campaigners, these models are going to replace my decision-making rationale, blah blah blah.
+
+ STENT Mark   11:52 Yes. Plus. It.
+
+ Marinakos George   12:07 I think, I think we are mature enough now to put it in the strategy document and to work on an official roadmap fully, fully distinct from the other enablers of the business. One of the main enablers will be machine learning for customer applications. To serve what? What kind of things to serve? Fast and relevant experiences, protection of the customer, optimization of marketing and maximization of share of voice, let's say, and stuff like that. So it's going to be strategic, not tactical, and will be a core part of the business. Another challenge, Mark.
+
+ STENT Mark   12:45 Yes.
+
+ Marinakos George   12:49 Is the the constant technological migration from tool to tool to tool to tool. I will give you an example, a real life experience to us. OK, all these things at first, Mark, just for you to understand the ecosystem. The data live in a cloud environment called Synapse OK. Then we use Databricks to hit that database and process our data. So Azure Databricks is the main tool of processing and developing our models. Let's say OK, then our models. Are being deployed in any production system, meaning that when you develop a probabilistic model, it produces scores of probability. These scores are translated to flags. Let's say one customer ID is flagged as high risk to churn, let's say. And this information is plugged automatically to the the CRM systems, to the reporting systems, to all systems relating with the impact to the device of the customer. OK, so we create our models to Azure Databricks and then we deploy it back. To database in the relevant tables that speak with Salesforce, let's say, which is the main CRM tool for a pop and the reporting system which is mainly Power BI right now. This is the flow. This is the technological frame that we work. Now before we go to Azure, we were working three years back. We were working through SPSS modeller hitting an SQL server, OK. Then we migrated completely to Management Studio, no SPSS modeler and all the stuff were done in SQL. OK, then we migrated from an SQL Server to a cloud environment as Synapse. So we had. To migrate 200 codes, 100 reports from using SQL Server, now using Azure and migrated older versions of Power BI.
+
+ STENT Mark   15:02 Yeah.
+
+ Marinakos George   15:13 To new versions of Power BI, as is Fabric, let's say, which is the distribution channel of Power BI. Now we are we are again killing Tableau, let's say, and shifting Power BI old Tableau reports. To Power BI completely. So we decommission Tableau. The next migration we are going to face on August and in September is a new feature in Azure Databricks called Help Me Manos. Um, you need the catalog. So we need to change the source of data to 200 codes again.
+
+    15:50 Mhm.
+
+ STENT Mark   15:55 Oh my gosh.
+
+ Marinakos George   15:56 So so.
+
+ Platias Christos   15:56 And it happens. And George, it happens right now. Hello, Mark. Excuse me for the delay, George, but I had the issues with my connection at home because I was from home. We haven't met yet, Mark. My name is Christos. I work with George.
+
+ Marinakos George   16:01 No problem.
+
+ STENT Mark   16:04 No problem. Good to meet you, man. Good to see you.
+
+ Marinakos George   16:08 No.
+
+ STENT Mark   16:08 No, not yet. It's me.
+
+ Marinakos George   16:10 Mark Mark Chris developed the famous model about predicting addiction in in betting. He's the developer himself. Chris got a Chris got a crap. You develop the model and we move on now.
+
+ Platias Christos   16:18 The the team. The team developed the model, not Christos. The team developed the model, George.
+
+ STENT Mark   16:25 Good thinking.
+
+ Marinakos George   16:30 Uh, what I was saying, ma.
+
+ Platias Christos   16:31 Is more, is more disclaimer, George, if I may, Unity catalogue migration happens now as we speak. Mark George said that this is going to be completed upon October, let's say.
+
+ Marinakos George   16:39 OK.
+
+ STENT Mark   16:47 OK.
+
+ Platias Christos   16:47 I think that by the end of August, maybe we will be ready from our side. Additionally, back in the historic stuff George described earlier when we moved from SPSS to SQL servers. SPSS at its own was talking, let's say with an S with an SQL server, but we migrated how we write code from SPSS modeller to SQL and Python of course, because in order to build models we need Python coding and not SPL of course. So Python was our main language.
+
+ STENT Mark   17:16 Yes.
+
+ Marinakos George   17:19 Yeah, so, so. Chris, I'm I'm explaining here that the team is is is struggling with consistent large scale technological shifts who are driven mainly by post criteria and not let's say effectiveness criteria.
+
+ Platias Christos   17:24 Remodeling.
+
+ Marinakos George   17:41 OK, I'm not saying that cloud environments and Azure Databricks are not effective. I'm not saying that. But we are a team of 12 people right now. As you've seen, this team have produced more than 20 models over the last two years. And this is done through constant and consistent technological shifting. So this is this is a real pain point. The other pain point, as I said, is to convince the business to put these models under deployment and the other and the other.
+
+ STENT Mark   18:11 Yes.
+
+ Marinakos George   18:14 Let's say a challenge. Mark is how do you measure? How do you measure the ROI of these things? OK.
+
+ STENT Mark   18:23 Yeah.
+
+ Marinakos George   18:24 This is a real new game, not only for us, but for the whole company. Why I'm saying that? I'm giving you an example. Through machine learning, we have the ability to recognize future VIP customers in high lotters, let's say, from the first day of transactions with us. We are talking about customers that will bring 40 of the business within the next two years. We invest time, we present our model, we put it in a reporting, we measure it, OK. The business has the expectation to see an instant uplift from this over the first two months, let's say. When you predict your VIP animals, let's say, they need to develop their lifetime, right? So when you predict a customer way earlier than you did in the past, you give to him a way better experience, much earlier than in the past. And this needs to be visible as an ROI to the business six months or one year. Because we are not talking about customers that there are thousands of thousands, we are talking about a golden minority that will be the driver of the business over the next two years. So this is that if if I would summarise the challenges of our ML, let's say environment today, these are the three areas, consistent technological instability 1-2. Convincing the business to deploy them and invest a big portion of CRM on them two and three. How to prove their value, let's say.
+
+ STENT Mark   20:19 Yeah, it's actually common. The the North American team was saying the same thing to me. They've got so much capability, but it's taken them a good couple of years for the everybody to trust the work that they're doing. Like they've been able to do it same as MMMS. They're able to do MMMS, but nobody trusts them to do it enough yet. And they've slowly built up enough kudos that the business is allowing them to strategically build these models into their their planning and whatever. So you're not alone in that. Believe me, you really aren't.
+
+ Marinakos George   20:50 So we I described the ecosystem. I described the struggles. We're at your disposal for whatever you need. The guys are magicians on the on the we we are doing machine learning with these two guys over the last six years. So you can refer to Manos and Christos freely and even without my presence, because they they are really the the the real deal, let's say, and whatever you need, we are here for you.
+
+ STENT Mark   21:07 Amazing. I'd love that, George. Guys, maybe we can have another call just. I'm like you. I'm a data scientist myself and I've been working in the industry a long time with machine learning, putting models into production, mostly in in deep learning. But one of my main goals now is is moving into the Gen. AI and the agent space and how we're going to be using that.
+
+ Platias Christos   21:37 OK.
+
+ STENT Mark   21:43 So that leads me to my last question, because I know we're conscious of time. How are you guys incorporating Gen. AI into your workflows? Are you? Are you experimenting with that stuff at the moment?
+
+ Marinakos George   21:53 Well, the truth is that we are on zero point on that right now. Gen. AI for us is just a helper for our codes because we we consult, we consult judges, judges, BPP, how you do that, how can I convert? I'm talking about functions within our.
+
+ STENT Mark   21:59 OK. Correct.
+
+ Marinakos George   22:13 Coding. This is how we use this kind of things. We are trying to explore the Azure Databricks capabilities to see what are the options that we build in the future. An in house agent let's say that will make the top line inside. Insights production for the users self-service. So they get in the machine and they ask what is the churn in casino 30% let's say, meaning an agent giving quick and dirty top line insights for the business without the need of analysis. For that, let's say. But right now in the online business we are at .0. We don't know how and we have not invested the time to to work on it, but.
+
+ STENT Mark   22:53 Yeah.
+
+ Marinakos George   23:07 Oh, Pap has is creating right now. A different hub that will Costis Picos is the leader of that. If you need the the contact point and they are preparing a plan of let's make some pilots, let's see. I think they have already prepared. Agents. Uh, automate.
+
+ Platias Christos   23:34 Yes, George, but not, not, not, not in-house. The the development of these agents is not made in-house in Nopap. These elements are provided by vendors and this team.
+
+ Marinakos George   23:37 Not in house, yes. Exactly this is. It did. So, so yes, yes, they are outsourcing it.
+
+ Platias Christos   23:49 He's. Yes, OK.
+
+ STENT Mark   23:54 Well, when you guys are ready to go that route, let's chat because I have a lot of experience in that route. I've been building agents for the last two years at Publicis across the board with the different models. I was actually, you guys will be interested to know I was at the Google Cloud Summit yesterday and they've just built a tool. I almost fell out of my chair when I saw it. Testing it now. I don't know if you know their BigQuery ecosystem. I come from Google originally and what they've done is, and as you I'm sure you guys must know by now, RAG is really hard to implement. You have a chat bot and to get real results because it's it's all sorts of flaws.
+
+ Platias Christos   24:18 Yes.
+
+ STENT Mark   24:31 And they've almost perfected it. And these guys did this tool. So they had a big query warehouse with a whole bunch of tables sitting there with a little chatbot agent at the bottom. So they call it their data science agent. And this person said something like, I'd like to get please create me some tables for customers and marketing. Boom, boom, boom. It created the joins in front of them. You watch it doing it. Boom. It's got a joined table in front of you. Then you ask it a question. I'd like to know what is the average rate of XYZ doing this. It literally does it in front of you, draws the graph, the bar graph. If you push a button, it opens the notebook, so it actually runs the notebooks with.
+
+ Marinakos George   25:02 Bye. Sure.
+
+ STENT Mark   25:11 The Python with the SQL in front of your eyes and you can download the code if you want to and ask everything in natural language. I was I was mind blown on a level you've never seen, so I'm sure Azure is going to do something like that soon anyway as well, you know? It is brilliant. Really, really was.
+
+ Marinakos George   25:29 Mark, we are completely open to that, but I I need to to be frank towards you. LLM is is a learning care for us right now. So, so when we have a.
+
+ STENT Mark   25:39 If for all of us, yeah, I think so.
+
+ Platias Christos   25:43 For everybody, George, it's not only for us.
+
+ Marinakos George   25:45 Yeah, when uh.
+
+ STENT Mark   25:47 Yes.
+
+ Marinakos George   25:48 When when it comes to producing something, because it's coming for us, when we need to to start, let's say trying to work on that and start trying to produce something, we definitely were going to need your help on that.
+
+ STENT Mark   26:06 Yeah, absolutely. I'd love to be doing that and doing that kind of thing. I think just to put you guys minds at rest, I've spoken to everybody so far now and nobody is doing any Janai stuff directly. One or two of them are, like you said, playing around with POCS.
+
+ Marinakos George   26:07 OK.
+
+ STENT Mark   26:21 But none of it is, because I think the truth is traditional data science always wins like you it it does. So like you have to focus.
+
+ Marinakos George   26:27 I'm trying. I'm I'm trying to convince the team about that. This is this is this is never going to die. This is going to this is going to be always the only direct ROI creation machine and.
+
+ STENT Mark   26:33 That's. No. Absolutely.
+
+ Marinakos George   26:43 I'm not saying that the LLMS are not valuable or they don't have potential, no way. But my aspect is that we need to maximize our production line on the machine, on the customer machine learning side and then.
+
+ STENT Mark   26:55 Agree.
+
+ Marinakos George   26:59 Plan a real valuable use case and then really work on it.
+
+ STENT Mark   27:05 I I think right now LLMS in the data science framework, they only have one use and you still have to do your modelling because those are deterministic and like you can, they work in a certain way. You know you're running an XG Boost model like it works. You know how the predictions work. We understand it. It's not a black box. I. LLMs working now is a layer sitting on the top that helps you collate the information in a friendly way. So if you have a model that like does some SQL, sends off to another agent that does some Python, they get the results, they're deterministic like you know how to do them, and then the LLM just sits on the top and orchestrates the way that. That information gets presented. That's how we've been using it. It's because the the expectation of people that models can do things, they can't do analysis like they literally just takes prediction machines, you know. So I think there's a lot of learning happening within the company. But I know we're short of time. That's a whole other discussion. We'll get into that.
+
+ Marinakos George   27:55 3.
+
+ Platias Christos   27:56 Of course.
+
+ STENT Mark   28:05 Guys, thank you so much for this and to all of you, and especially you, George, like for the amount of effort and care you've put into this, it's really helped me just to know next steps. I've got everything I need now. I'm going to build a presentation now for what everybody's doing at the moment, just so you guys have all got a vision because the goal is. Eventually, like you guys are super mature, some of the other guys aren't and it would be really nice if they could reach out to you for tips on how to do things. And I think that's the best way we can bring things together. And then lastly, I don't know if you guys are interested, but what I'm looking at doing is building like a a team kind of get together where we get get together.
+
+ Platias Christos   28:32 close.
+
+ STENT Mark   28:43 as professionals where we do talk about work, but maybe I get people like Open AI coming to do a lecture for all of us on the latest model, like technical ways that we can all speak together and form kind of a group if you guys are interested in that type of thing.
+
+ Marinakos George   28:58 We are. We are all the way in. We are all the way in, Mark, all the way.
+
+ Platias Christos   28:59 Mhm. close, close.
+
+ STENT Mark   29:03 Oh, that's amazing to hear because like, like you guys, I'm a complete nerd and I love reading papers and I love hearing what other people are doing. I'm sure you guys are exactly the same as I am. So I think we need a space where all of us as like-minded people can talk about obviously company stuff, but also industry related stuff, right? Like what is the latest? Azure thing that you're working on, maybe I can learn from you, you can learn from me. So I think that'll be the next step going forward. All right, cool guys. Well, thank you for your time and I hope you have a good weekend and I hope you don't die of heat in the 35 degrees this weekend. All right, and we'll check.
+
+ Marinakos George   29:29 Sure.
+
+ Platias Christos   29:32 2.
+
+ Marinakos George   29:36 Mark.
+
+ Platias Christos   29:36 Hmm. We have air conditioning installed all over the place, so we are OK.
+
+ STENT Mark   29:41 You know, the UK has not learnt about what air conditioning is. Please, could you send someone over here to teach them? They just don't know, you know, anyway.
+
+ Marinakos George   29:47 Mark, it's always a pleasure to talk with you. Whatever you need, hit us, OK?
+
+ Platias Christos   29:48 Huh.
+
+ STENT Mark   29:55 You're a star. You guys are so super friendly and thank you so much for everything. Good to meet you guys as well. We'll chat soon. Have a. I won't. Thank you guys. Have a good weekend, man.
+
+ STENT Mark stopped transcription

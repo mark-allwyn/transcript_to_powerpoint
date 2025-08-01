@@ -1,193 +1,107 @@
-# Transcript → Slides
+# AI-Powered Document Processing Suite
 
-An AI-powered Streamlit application that automatically converts meeting transcripts into professional PowerPoint presentations with AI-generated images.
+A collection of AI applications for document processing, transcript analysis, and presentation generation.
 
-## Features
+## Applications
 
-- **Smart Transcript Analysis**: Uses OpenAI's structured output to extract key points, decisions, and action items from meeting transcripts
-- **Automated Slide Generation**: Creates professional slide decks with relevant titles and bullet points
-- **AI-Generated Visuals**: Generates contextual business illustrations using DALL-E 3
-- **Easy Web Interface**: Simple drag-and-drop file upload via Streamlit
-- **Instant Download**: Get your PowerPoint presentation ready in seconds
+### [OpenAI Transcript to Slides](./openai/)
+Convert meeting transcripts into professional PowerPoint presentations with AI-generated visuals.
 
-## How It Works
+**Features:**
+- Smart transcript analysis with GPT-4o-mini
+- Automated slide generation
+- DALL-E 3 image creation
+- Performance timing metrics
 
-1. **Upload** a meeting transcript (.txt file)
-2. **AI Analysis** extracts key information using GPT-4o-mini
-3. **Slide Creation** generates structured slides with titles and bullets
-4. **Image Generation** creates relevant business illustrations with DALL-E 3
-5. **Download** your complete PowerPoint presentation
-
-## Installation
-
-### Prerequisites
-
-- Python 3.8+
-- OpenAI API key
-
-### Setup
-
-1. Clone the repository:
+**Quick Start:**
 ```bash
-git clone <your-repo-url>
-cd transcribe_to_slide
-```
-
-2. Install dependencies:
-```bash
+cd openai
 pip install -r requirements.txt
-```
-
-3. Set up your OpenAI API key:
-```bash
-export OPENAI_API_KEY="your-api-key-here"
-```
-
-Or create a `.env` file:
-```
-OPENAI_API_KEY=your-api-key-here
-```
-
-## Usage
-
-1. Start the Streamlit application:
-```bash
 streamlit run app.py
 ```
 
-2. Open your browser to `http://localhost:8501`
+## Global Setup
 
-3. Upload a meeting transcript text file
+### Prerequisites
+- Python 3.8+
+- OpenAI API key
 
-4. Wait for processing (typically 30-60 seconds)
-
-5. Download your generated PowerPoint presentation
-
-## Dependencies
-
-```
-streamlit
-openai
-python-pptx
-pydantic
-pillow
-requests
+### Environment Configuration
+1. Copy `.env.example` to `.env` (if available)
+2. Add your API keys:
+```env
+OPENAI_API_KEY=your-api-key-here
 ```
 
-## Technical Details
+**See [ENV_GUIDE.md](./ENV_GUIDE.md) for detailed environment variable management across folders**
 
-### AI Models Used
+### Virtual Environment
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
 
-- **GPT-4o-mini**: For transcript analysis and slide content generation
-- **GPT-4o**: For creating detailed image prompts
-- **DALL-E 3**: For generating professional business illustrations
+## Repository Structure
 
-### Structured Output
+```
+transcript_to_powerpoint/
+├── .env                    # Shared environment variables
+├── .gitignore             # Global ignore patterns
+├── README.md              # This file
+├── openai/                # OpenAI-based transcript processor
+│   ├── .env              # App-specific environment (optional)
+│   ├── app.py            # Main Streamlit application
+│   ├── requirements.txt  # Dependencies
+│   ├── ARCHITECTURE.md   # Technical documentation
+│   └── README.md         # App-specific guide
+└── [future apps]/        # Additional AI applications
+```
 
-The application uses OpenAI's structured output feature with Pydantic models to ensure reliable and consistent results:
+## Adding New Applications
 
-- `MeetingSummary`: Extracts key points, decisions, and action items
-- `SlideSpecs`: Defines slide titles and bullet points
-- `ImagePrompts`: Generates contextual DALL-E prompts
+1. **Create App Directory:**
+   ```bash
+   mkdir new-app-name
+   cd new-app-name
+   ```
 
-### Slide Generation Process
+2. **App Structure:**
+   ```
+   new-app-name/
+   ├── .env              # App-specific config (optional)
+   ├── app.py            # Main application
+   ├── requirements.txt  # Dependencies
+   └── README.md         # Documentation
+   ```
 
-1. **Analysis Phase**: Extract structured information from transcript
-2. **Content Phase**: Create slide specifications with titles and bullets
-3. **Visual Phase**: Generate relevant image prompts based on content
-4. **Assembly Phase**: Combine text and images into PowerPoint format
+3. **Environment Variables:**
+   - Use root `.env` for shared variables (API keys)
+   - Create app `.env` only for app-specific settings
 
-## Example Output
+## Development Guidelines
 
-The application generates:
+### Environment Variables
+- **Root `.env`**: Shared across all apps (API keys, global settings)
+- **App `.env`**: App-specific overrides or additional variables
+- Load order: App `.env` overrides root `.env`
 
-- **Title slide** with meeting summary
-- **Content slides** covering:
-  - Key discussion points
-  - Decisions made
-  - Action items identified
-- **Professional visuals** relevant to meeting topics
+### Dependencies
+- Each app has its own `requirements.txt`
+- Keep dependencies minimal and app-specific
+- Document any special installation requirements
 
-## Error Handling
+### Documentation
+- Each app must have its own README.md
+- Include quick start, features, and usage examples
+- Technical details go in ARCHITECTURE.md (if complex)
 
-The application includes robust fallback mechanisms:
+## Contributing
 
-- If AI analysis fails, creates basic slides from available content
-- If image generation fails, uses clean placeholder images
-- Graceful handling of API rate limits and timeouts
-
-## Customization
-
-### Slide Content
-Modify the prompt templates in `generate_slide_package()` to adjust:
-- Number of bullet points per slide
-- Slide title formats
-- Content structure
-
-### Visual Style
-Adjust image generation prompts to change:
-- Color schemes (default: blue/gray/white)
-- Illustration style (default: minimalist business)
-- Visual complexity
-
-### Output Format
-The PowerPoint template can be customized by modifying the `build_pptx()` function.
-
-## Troubleshooting
-
-### Common Issues
-
-1. **"No module named 'openai'"**
-   - Run `pip install -r requirements.txt`
-
-2. **API key errors**
-   - Verify your OpenAI API key is set correctly
-   - Check your OpenAI account has sufficient credits
-
-3. **Image generation fails**
-   - The app will use placeholder images if DALL-E fails
-   - Check OpenAI API status if persistent
-
-4. **Long processing times**
-   - Large transcripts take longer to process
-   - Image generation can take 30-60 seconds
-
-### Debug Mode
-
-The application includes debug print statements that show:
-- Summary extraction results
-- Number of slides generated
-- Image prompt creation status
-
-## API Costs
-
-Approximate costs per transcript (varies by length):
-- GPT-4o-mini analysis: ~$0.01-0.05
-- DALL-E 3 images: ~$0.04 per image
-- Total: ~$0.10-0.25 per presentation
+1. Create new apps in separate directories
+2. Follow the established structure
+3. Include proper documentation
+4. Test with sample data before committing
 
 ## License
 
 [Specify your license here]
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## Support
-
-For issues or questions:
-- Create an issue in this repository
-- Check the troubleshooting section above
-- Verify your OpenAI API key and credits
-
-## Changelog
-
-### v1.0.0
-- Initial release with OpenAI structured output
-- DALL-E 3 image generation
-- Streamlit web interface
-- PowerPoint export functionality

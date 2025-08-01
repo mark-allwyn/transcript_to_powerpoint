@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # Unified AI Processing Suite
+  ai-suite:
+    build: .
+    container_name: ai-processing-suite
+    ports:
+      - "8503:8503"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+    command: streamlit run app.py --server.port 8503 --server.address 0.0.0.0
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8503/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  # Nginx reverse proxy (optional for production)
+  nginx:
+    image: nginx:alpine
+    container_name: ai-suite-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-single.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - ai-suite
+    profiles:
+      - proxy
+    restart: unless-stopped

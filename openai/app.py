@@ -398,159 +398,54 @@ def generate_slide_package(transcript: str):
 # ---------------------------------------------------------------------------
 # Streamlit User Interface
 # ---------------------------------------------------------------------------
-def simple_slide_generation(transcript: str) -> tuple[list[dict], list[bytes]]:
-    """Simple backup approach that doesn't rely on structured output"""
-    from openai import OpenAI
-    client = OpenAI()
-    
-    print("Using simple slide generation approach")
-    
-    # OPTIMIZATION: Truncate transcript for efficiency
-    max_chars = 4000  # Even more aggressive for simple method
-    if len(transcript) > max_chars:
-        transcript = transcript[:max_chars] + "...[truncated]"
-    
-    # Split transcript into topics
-    try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Create presentation slides. Return only JSON."
-                },
-                {
-                    "role": "user", 
-                    "content": f"""
-                    Create 4 slides from this transcript. Return ONLY this JSON format:
-                    {{"slides": [{{"title": "Title", "bullets": ["Point 1", "Point 2"]}}]}}
-                    
-                    Requirements:
-                    - Exactly 4 slides
-                    - 3-4 bullets per slide
-                    - Titles under 8 words
-                    
-                    Transcript: {transcript}
-                    """
-                }
-            ],
-            temperature=0.1,
-            max_tokens=800  # Limit response tokens
-        )
+
+
+if __name__ == "__main__":
+    # Add option to use simple generation
+    st.title("Transcript to Slides (OpenAI)")
+    st.markdown("*Advanced structured output with DALL-E 3 visuals*")
+
+    file = st.file_uploader("Upload meeting transcript (.txt)", type=["txt"], key="standalone_openai_file_uploader")
+
+    if file:
+        transcript_text = file.read().decode("utf-8", errors="ignore")
         
-        result_text = response.choices[0].message.content
-        print(f"Raw response: {result_text[:200]}...")
-        
-        # Try to parse JSON
-        import json
-        import re
-        
-        # Extract JSON from response
-        json_match = re.search(r'\{.*\}', result_text, re.DOTALL)
-        if json_match:
-            slide_data = json.loads(json_match.group())
-            slide_specs = slide_data.get('slides', [])
-        else:
-            slide_specs = []
-            
-    except Exception as e:
-        print(f"Simple generation error: {e}")
-        slide_specs = []
-    
-    # Fallback if JSON parsing failed
-    if not slide_specs or len(slide_specs) < 2:
-        slide_specs = [
-            {
-                "title": "Meeting Overview",
-                "bullets": [
-                    "Meeting transcript processed",
-                    "Key information extracted",
-                    "Multiple topics discussed"
-                ]
-            },
-            {
-                "title": "Discussion Points", 
-                "bullets": [
-                    "Various topics covered",
-                    "Participant engagement noted",
-                    "Information shared"
-                ]
-            },
-            {
-                "title": "Next Steps",
-                "bullets": [
-                    "Follow-up actions identified",
-                    "Timeline to be established", 
-                    "Stakeholders to be notified"
-                ]
-            }
-        ]
-    
-    print(f"Simple approach generated {len(slide_specs)} slides")
-    
-    # Generate simple images
-    prompts = [f"Professional business illustration for {spec['title']}, minimalist style, no text" for spec in slide_specs]
-    images = create_images_gpt(prompts)
-    
-    return slide_specs, images
-
-
-# Add option to use simple generation
-st.title("Transcript → Slides (OpenAI)")
-
-# Add generation method selector
-generation_method = st.radio(
-    "Choose generation method:",
-    ["Advanced (Structured Output)", "Simple (Backup Method)"],
-    index=0
-)
-
-file = st.file_uploader("Upload meeting transcript (.txt)", type=["txt"])
-
-if file:
-    transcript_text = file.read().decode("utf-8", errors="ignore")
-    
-    if generation_method == "Simple (Backup Method)":
-        with st.spinner("Processing transcript with simple method…"):
-            specs, imgs = simple_slide_generation(transcript_text)
-            deck = build_pptx(specs, imgs)
-        timing_info = {"total_time": 0}  # Simple timing for backup method
-    else:
-        with st.spinner("Processing transcript with advanced method…"):
+        with st.spinner("Processing transcript with advanced structured output..."):
             specs, imgs, timing_info = generate_slide_package(transcript_text)
             deck = build_pptx(specs, imgs)
-    
-    st.success(f"Slide deck ready! Generated {len(specs)} content slides plus title slide.")
-    
-    # Show optimization info
-    if timing_info.get('transcript_length'):
-        st.info(f"📊 Processed {timing_info['transcript_length']:,} characters | Generated {timing_info.get('slides_generated', 0)} slides")
-    
-    # Display slide preview
-    st.subheader("Slide Preview")
-    for i, spec in enumerate(specs, 1):
-        with st.expander(f"Slide {i + 1}: {spec['title']}"):
-            for bullet in spec['bullets']:
-                st.write(f"• {bullet}")
-    
-    # Display timing information (if available)
-    if timing_info.get('total_time', 0) > 0:
-        st.subheader("Processing Times")
-        col1, col2 = st.columns(2)
         
-        with col1:
-            st.metric("Transcript Analysis", f"{timing_info.get('transcript_analysis', 0):.1f}s")
-            st.metric("Slide Generation", f"{timing_info.get('slide_generation', 0):.1f}s")
+        st.success(f"Slide deck ready! Generated {len(specs)} content slides plus title slide.")
         
-        with col2:
-            st.metric("Image Prompts", f"{timing_info.get('image_prompts', 0):.1f}s")
-            st.metric("Image Generation", f"{timing_info.get('image_generation', 0):.1f}s")
+        # Show optimization info
+        if timing_info.get('transcript_length'):
+            st.info(f"Processed {timing_info['transcript_length']:,} characters | Generated {timing_info.get('slides_generated', 0)} slides")
         
-        st.metric("Total Processing Time", f"{timing_info['total_time']:.1f}s")
-    
-    st.download_button(
-        label="Download PPTX",
-        data=deck,
-        file_name="meeting_summary.pptx",
-        mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    )
+        # Display slide preview
+        st.subheader("Slide Preview")
+        for i, spec in enumerate(specs, 1):
+            with st.expander(f"Slide {i + 1}: {spec['title']}"):
+                for bullet in spec['bullets']:
+                    st.write(f"• {bullet}")
+        
+        # Display timing information (if available)
+        if timing_info.get('total_time', 0) > 0:
+            st.subheader("Processing Times")
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.metric("Transcript Analysis", f"{timing_info.get('transcript_analysis', 0):.1f}s")
+                st.metric("Slide Generation", f"{timing_info.get('slide_generation', 0):.1f}s")
+            
+            with col2:
+                st.metric("Image Prompts", f"{timing_info.get('image_prompts', 0):.1f}s")
+                st.metric("Image Generation", f"{timing_info.get('image_generation', 0):.1f}s")
+            
+            st.metric("Total Processing Time", f"{timing_info['total_time']:.1f}s")
+        
+        st.download_button(
+            label="Download PPTX",
+            data=deck,
+            file_name="meeting_summary.pptx",
+            mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            key="standalone_openai_download_button"
+        )

@@ -327,40 +327,55 @@ def process_transcript_with_crewai(transcript: str):
 # Streamlit User Interface
 # ---------------------------------------------------------------------------
 
-st.title("Transcript → Slides (CrewAI)")
+if __name__ == "__main__":
+    st.title("Transcript to Slides (CrewAI)")
+    st.markdown("*Cost-optimized multi-agent intelligence with 90% savings*")
 
-file = st.file_uploader("Upload meeting transcript (.txt)", type=["txt"])
+    file = st.file_uploader("Upload meeting transcript (.txt)", type=["txt"], key="standalone_crewai_file_uploader")
 
-if file:
-    transcript_text = file.read().decode("utf-8", errors="ignore")
-    
-    with st.spinner("Processing transcript with advanced method…"):
-        slide_data, deck, processing_time = process_transcript_with_crewai(transcript_text)
-        timing_info = {"total_time": processing_time}
-    
-    st.success(f"Slide deck ready! Generated {len(slide_data.slides)} content slides plus title slide.")
-    
-    # Show optimization info to match OpenAI app  
-    st.info(f"📊 Processed {len(transcript_text):,} characters | Generated {len(slide_data.slides)} slides")
-    
-    # Display timing information (if available)
-    if timing_info.get('total_time', 0) > 0:
-        st.subheader("Processing Times")
-        col1, col2 = st.columns(2)
+    if file:
+        transcript_text = file.read().decode("utf-8", errors="ignore")
         
-        with col1:
-            st.metric("Agent Analysis", f"{timing_info['total_time']/3:.1f}s")
-            st.metric("Slide Design", f"{timing_info['total_time']/3:.1f}s")
+        with st.spinner("Processing transcript with 3-agent CrewAI workflow..."):
+            slide_data, deck, processing_time = process_transcript_with_crewai(transcript_text)
+            timing_info = {
+                "total_time": processing_time,
+                "transcript_length": len(transcript_text),
+                "slides_generated": len(slide_data.slides)
+            }
         
-        with col2:
-            st.metric("Content Optimization", f"{timing_info['total_time']/3:.1f}s")
-            st.metric("Text Processing", "0.0s")
+        st.success(f"Slide deck ready! Generated {len(slide_data.slides)} content slides plus title slide.")
         
-        st.metric("Total Processing Time", f"{timing_info['total_time']:.1f}s")
-    
-    st.download_button(
-        label="Download PPTX",
-        data=deck,
-        file_name="meeting_summary.pptx",
-        mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    )
+        # Show optimization info to match OpenAI app  
+        if timing_info.get('transcript_length'):
+            st.info(f"Processed {timing_info['transcript_length']:,} characters | Generated {timing_info.get('slides_generated', 0)} slides")
+        
+        # Display slide preview
+        st.subheader("Slide Preview")
+        for i, slide in enumerate(slide_data.slides, 1):
+            with st.expander(f"Slide {i + 1}: {slide.title}"):
+                for bullet in slide.bullets:
+                    st.write(f"• {bullet}")
+        
+        # Display timing information (if available)
+        if timing_info.get('total_time', 0) > 0:
+            st.subheader("Processing Times")
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.metric("Agent Analysis", f"{timing_info['total_time']/3:.1f}s")
+                st.metric("Slide Design", f"{timing_info['total_time']/3:.1f}s")
+            
+            with col2:
+                st.metric("Content Optimization", f"{timing_info['total_time']/3:.1f}s")
+                st.metric("Text Processing", "0.0s")
+            
+            st.metric("Total Processing Time", f"{timing_info['total_time']:.1f}s")
+        
+        st.download_button(
+            label="Download PPTX",
+            data=deck,
+            file_name="meeting_summary.pptx",
+            mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            key="standalone_crewai_download_button"
+        )

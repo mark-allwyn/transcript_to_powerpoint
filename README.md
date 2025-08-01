@@ -2,6 +2,34 @@
 
 A collection of AI applications for document processing, transcript analysis, and presentation generation.
 
+## Quick Start
+
+### Hub Application (Recommended)
+Access all applications through a unified interface:
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set environment variables
+export OPENAI_API_KEY=your-key-here
+
+# Run hub application
+streamlit run app.py
+```
+
+**Access at:** http://localhost:8503
+
+### Docker Deployment
+```bash
+# Simple deployment
+docker-compose up -d
+
+# Access points:
+# Hub: http://localhost:8503
+# OpenAI: http://localhost:8501  
+# CrewAI: http://localhost:8502
+```
+
 ## Applications
 
 ### [OpenAI Transcript to Slides](./openai/)
@@ -65,6 +93,12 @@ transcript_to_powerpoint/
 ├── .env                    # Shared environment variables
 ├── .gitignore             # Global ignore patterns
 ├── README.md              # This file
+├── DEPLOYMENT.md          # Deployment guide
+├── app.py                 # Hub application (main entry point)
+├── requirements.txt       # Hub dependencies
+├── Dockerfile             # Container configuration
+├── docker-compose.yml     # Multi-service deployment
+├── nginx.conf             # Reverse proxy configuration
 ├── openai/                # OpenAI-based transcript processor
 │   ├── .env              # App-specific environment (optional)
 │   ├── app.py            # Main Streamlit application
